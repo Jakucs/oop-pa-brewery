@@ -50,8 +50,22 @@ class Brewery {
      * - What happens if there's not enough quantity?
      * - Should this modify the stock?
      */
-    void retrieveBeerFromStock() {
+    void retrieveBeerFromStock(String name, int quantity) {
         // TODO: Implement
+        if (name == null) {
+            throw new IllegalArgumentException("Name can't be null");
+        }
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be positive");
+        }
+        if (!stock.containsKey(name)) {
+            throw new IllegalStateException("Beer not found in stock");
+        }
+        if (stock.get(name) < quantity) {
+            throw new IllegalStateException("Not enough beer in stock");
+        }
+
+        stock.put(name, stock.get(name) - quantity);
     }
 
     /**
