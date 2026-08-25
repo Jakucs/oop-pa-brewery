@@ -78,7 +78,19 @@ class Brewery {
      */
     public int calculateProductionCapacity(List<DayOfWeek> days) {
         // TODO: Implement
-        return 0;
+        int total = 0;
+        List<HelperBrewer> helpers = brewers.stream()
+                .filter(b->b instanceof HelperBrewer)
+                .map(b-> (HelperBrewer) b)
+                .toList();
+        for(DayOfWeek day : days){
+            for(Brewer brewer : brewers){
+                if(brewer instanceof MasterBrewer master){
+                    total += master.brewBeer(null, day, helpers);
+                }
+            }
+        }
+        return total;
     }
 
     /**
