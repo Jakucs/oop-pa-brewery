@@ -31,5 +31,5 @@ public abstract class Beer {
     public abstract int getFermentationDays();
     public abstract boolean canBeStoredAt(double temperature);
 
-    
+
 }
