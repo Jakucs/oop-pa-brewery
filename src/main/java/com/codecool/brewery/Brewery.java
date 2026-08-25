@@ -30,9 +30,17 @@ class Brewery {
         brewers.add(brewer);
     }
 
-    void addBeerToStock() {
+    void addBeerToStock(String name, int quantity) {
         // TODO: Implement proper null checking and validation
         // TODO: add beer to stock
+        if(quantity<=0){
+            throw new IllegalArgumentException("quantity can't be null");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Name can't be null");
+        }
+        int current = stock.getOrDefault(name, 0);
+        stock.put(name, current + quantity);
     }
 
     /**
