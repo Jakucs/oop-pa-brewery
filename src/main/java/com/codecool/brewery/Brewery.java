@@ -1,6 +1,8 @@
 package com.codecool.brewery;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,9 +14,9 @@ import java.util.stream.Collectors;
  * Many methods are incomplete and need to be implemented.
  */
 class Brewery {
-    String name;
-    List<Brewer> brewers;
-    Map<String, Integer> stock;
+    private String name;
+    private List<Brewer> brewers;
+    private Map<Beer, Integer> stock;
 
     Brewery(String name) {}
 
@@ -30,17 +32,17 @@ class Brewery {
         brewers.add(brewer);
     }
 
-    void addBeerToStock(String name, int quantity) {
+    void addBeerToStock(Beer beer, int quantity) {
         // TODO: Implement proper null checking and validation
         // TODO: add beer to stock
         if(quantity<=0){
             throw new IllegalArgumentException("quantity can't be null");
         }
-        if (name == null) {
+        if (beer == null) {
             throw new IllegalArgumentException("Name can't be null");
         }
-        int current = stock.getOrDefault(name, 0);
-        stock.put(name, current + quantity);
+        int current = stock.getOrDefault(beer, 0);
+        stock.put(beer, current + quantity);
     }
 
     /**
@@ -50,22 +52,22 @@ class Brewery {
      * - What happens if there's not enough quantity?
      * - Should this modify the stock?
      */
-    void retrieveBeerFromStock(String name, int quantity) {
+    void retrieveBeerFromStock(Beer beer, int quantity) {
         // TODO: Implement
-        if (name == null) {
+        if (beer == null) {
             throw new IllegalArgumentException("Name can't be null");
         }
         if (quantity <= 0) {
             throw new IllegalArgumentException("Quantity must be positive");
         }
-        if (!stock.containsKey(name)) {
+        if (!stock.containsKey(beer)) {
             throw new IllegalStateException("Beer not found in stock");
         }
-        if (stock.get(name) < quantity) {
+        if (stock.get(beer) < quantity) {
             throw new IllegalStateException("Not enough beer in stock");
         }
 
-        stock.put(name, stock.get(name) - quantity);
+        stock.put(beer, stock.get(beer) - quantity);
     }
 
     /**
@@ -99,9 +101,17 @@ class Brewery {
      * - Filter beers by age
      * - Return collection of beer names
      */
-    public List<String> findMaturedBeers() {
+    public List<Beer> findMaturedBeers() {
         // TODO: Implement
-        return null;
+        List<Beer> maturedBeers = new ArrayList<>();
+        for(Map.Entry<Beer, Integer> entry : stock.entrySet()){
+            Beer beer = entry.getKey();
+            long daysOld = ChronoUnit.DAYS.between(beer.getProductionDate(), LocalDate.now());
+            if(daysOld>180){
+                maturedBeers.add(beer);
+            }
+        }
+        return maturedBeers;
     }
 
     /**

@@ -8,9 +8,9 @@ import java.time.temporal.ChronoUnit;
  * This is a basic implementation - you need to extend this to support different beer types.
  */
 public abstract class Beer {
-    String name;
-    double alcoholContent;
-    LocalDate productionDate;
+    private String name;
+    private double alcoholContent;
+    private LocalDate productionDate;
 
     Beer(String name, double alcoholContent, LocalDate productionDate) {
         if(alcoholContent<0 || alcoholContent > 100){
@@ -31,5 +31,7 @@ public abstract class Beer {
     public abstract int getFermentationDays();
     public abstract boolean canBeStoredAt(double temperature);
 
-
+    public String getName() { return name; }
+    public double getAlcoholContent() { return alcoholContent; }
+    public LocalDate getProductionDate() { return productionDate; }
 }
