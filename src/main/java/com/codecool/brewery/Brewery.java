@@ -14,12 +14,20 @@ import java.util.stream.Collectors;
 class Brewery {
     String name;
     List<Brewer> brewers;
+    Map<String, Integer> stock;
 
     Brewery(String name) {}
 
-    void addBrewer() {
+    void addBrewer(Brewer brewer) {
         // TODO: Implement proper null checking and validation
         // TODO: add brewer to brewers list
+        if(brewer==null){
+            throw new IllegalArgumentException("Can't be null");
+        }
+        if(brewer instanceof MasterBrewer && brewers.stream().anyMatch(b->b instanceof MasterBrewer)){
+            throw new IllegalStateException("MasterBrewer already exists.");
+        }
+        brewers.add(brewer);
     }
 
     void addBeerToStock() {
